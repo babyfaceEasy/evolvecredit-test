@@ -31,17 +31,11 @@ func (p *Pagination) SetTotalCount(total int) {
 	p.TotalCount = total
 }
 
+func (p *Pagination) getLastPage() bool {
+	return p.Page * p.Limit >= p.TotalCount
+}
+
 func (p *Pagination) GetPaginationData() PaginationData {
-
-	//return PaginationData{}
-	/*
-		FirstPage bool
-		LastPage  bool
-		PrevPage  int
-		NextPage  int
-		Total     int
-	*/
-
 	firstPage := true
 	prevPage := 1
 	if p.Page > 1 {
@@ -49,7 +43,7 @@ func (p *Pagination) GetPaginationData() PaginationData {
 		prevPage = p.Page - 1
 	}
 
-	lastPage := false
+	lastPage := p.getLastPage()
 	nextPage := p.Page
 	if !lastPage {
 		nextPage = p.Page + 1
